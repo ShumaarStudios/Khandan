@@ -1,4 +1,5 @@
-{
+/* CSS styling to enhance the page layout */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -33,6 +34,8 @@ main {
 .image-container {
     max-width: 100%;
     cursor: grab; /* Indicate that the image can be dragged */
+    overflow: hidden; /* Prevents overflowing */
+    position: relative; /* Positioning context for absolute elements */
 }
 
 .image-container img {
@@ -49,5 +52,5 @@ footer {
     color: white;
     position: relative;
     bottom: 0;
-    width: 100%;
+    width: 100%;
 }
