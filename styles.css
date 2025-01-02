@@ -1,0 +1,53 @@
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #3b5998; /* Dark blue color */
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin: 0;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    overflow: hidden; /* Hide overflow */
+}
+
+.image-container {
+    max-width: 100%;
+    cursor: grab; /* Indicate that the image can be dragged */
+}
+
+.image-container img {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    transform-origin: top left; /* Set origin for zooming */
+    transition: transform 0.2s; /* Smooth transition for zoom */
+}
+
+footer {
+    text-align: center;
+    padding: 15px 0;
+    background-color: #3b5998; /* Dark blue color */
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
