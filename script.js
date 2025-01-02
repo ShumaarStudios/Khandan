@@ -18,7 +18,7 @@ function zoom(event) {
     }
 
     // Prevent scale from being too small or too large
-    scale = Math.min(Math.max(scale, 1), 5); // Limit zoom scale between 1x and 5x
+    scale = Math.min(Math.max(scale, 1), 3); // Limit zoom scale between 1x and 3x
     updateTransform();
 }
 
