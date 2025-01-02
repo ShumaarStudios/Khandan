@@ -1,7 +1,7 @@
 const zoomableImage = document.getElementById("zoomableImage");
 const imageContainer = document.getElementById("imageContainer");
 
-let scale = 1; // Set initial scale to 2 for zoomed-in effect
+let scale = 2; // Set initial scale to 2 for zoomed-in effect
 let originX = 0;
 let originY = 0;
 let isDragging = false;
@@ -18,7 +18,7 @@ function zoom(event) {
     }
 
     // Prevent scale from being too small or too large
-    scale = Math.min(Math.max(scale, 1), 5); // Limit zoom scale between 1x and 5x
+    scale = Math.min(Math.max(scale, 1), 6); // Limit zoom scale between 1x and 5x
     updateTransform();
 }
 
