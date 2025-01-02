@@ -11,6 +11,7 @@
     width: 100vw;
     height: 100vh;
     cursor: grab;
+    touch-action: none; /* Disable default touch actions */
   }
   #zoomableImage {
     position: absolute;
@@ -18,7 +19,6 @@
     left: 50%;
     transform-origin: center center;
     transform: translate(-50%, -50%) scale(1);
-    touch-action: none; /* Prevent touch gestures from conflicting */
   }
 </style>
 </head>
@@ -46,40 +46,31 @@ function updateTransform() {
 function zoom(event) {
     event.preventDefault();
 
-    // Get pointer coordinates relative to the image
-    const rect = zoomableImage.getBoundingClientRect();
-    const offsetX = event.clientX - rect.left || event.touches[0].clientX - rect.left;
-    const offsetY = event.clientY - rect.top || event.touches[0].clientY - rect.top;
-
-    const deltaScale = event.deltaY < 0 ? 1.1 : 0.9; // Zoom in or out
+    // Calculate zoom direction
+    const deltaScale = event.deltaY < 0 ? 1.1 : 0.9;
     const newScale = Math.min(Math.max(scale * deltaScale, 0.5), 3); // Limit zoom levels
-
-    // Adjust origin to zoom at the pointer position
-    originX = (originX - offsetX) * (newScale / scale) + offsetX;
-    originY = (originY - offsetY) * (newScale / scale) + offsetY;
 
     scale = newScale;
     updateTransform();
 }
 
-// Handle dragging
+// Start dragging
 function startDrag(event) {
-    event.preventDefault();
     isDragging = true;
-
-    const clientX = event.clientX || event.touches[0].clientX;
-    const clientY = event.clientY || event.touches[0].clientY;
+    const clientX = event.type === "touchstart" ? event.touches[0].clientX : event.clientX;
+    const clientY = event.type === "touchstart" ? event.touches[0].clientY : event.clientY;
 
     startX = clientX - originX;
     startY = clientY - originY;
-    imageContainer.style.cursor = 'grabbing';
+    imageContainer.style.cursor = "grabbing";
 }
 
+// Dragging the image
 function drag(event) {
     if (!isDragging) return;
 
-    const clientX = event.clientX || event.touches[0].clientX;
-    const clientY = event.clientY || event.touches[0].clientY;
+    const clientX = event.type === "touchmove" ? event.touches[0].clientX : event.clientX;
+    const clientY = event.type === "touchmove" ? event.touches[0].clientY : event.clientY;
 
     originX = clientX - startX;
     originY = clientY - startY;
@@ -87,24 +78,22 @@ function drag(event) {
     updateTransform();
 }
 
+// End dragging
 function endDrag() {
     isDragging = false;
-    imageContainer.style.cursor = 'grab';
+    imageContainer.style.cursor = "grab";
 }
 
 // Mouse events
-imageContainer.addEventListener('wheel', zoom);
-imageContainer.addEventListener('mousedown', startDrag);
-window.addEventListener('mousemove', drag);
-window.addEventListener('mouseup', endDrag);
+imageContainer.addEventListener("wheel", zoom);
+imageContainer.addEventListener("mousedown", startDrag);
+window.addEventListener("mousemove", drag);
+window.addEventListener("mouseup", endDrag);
 
 // Touch events
-imageContainer.addEventListener('touchstart', startDrag, { passive: false });
-imageContainer.addEventListener('touchmove', drag, { passive: false });
-window.addEventListener('touchend', endDrag);
-
-// Prevent default touch actions to avoid scrolling
-imageContainer.addEventListener('touchmove', (event) => event.preventDefault(), { passive: false });
+imageContainer.addEventListener("touchstart", startDrag, { passive: false });
+imageContainer.addEventListener("touchmove", drag, { passive: false });
+window.addEventListener("touchend", endDrag);
 
 // Initial transform
 updateTransform();
