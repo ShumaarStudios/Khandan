@@ -8,6 +8,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     color: #333;
+    overflow: hidden; /* Prevent scrolling on the body */
 }
 
 header {
@@ -26,18 +27,26 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px 0;
-    overflow: hidden; /* Hide overflow */
+    height: 100vh; /* Full height of the viewport */
+    position: relative;
 }
 
 .image-container {
-    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden; /* Hide any overflow */
     cursor: grab; /* Indicate that the image can be dragged */
 }
 
 .image-container img {
-    width: 100%;
-    height: auto; /* Maintain aspect ratio */
+    position: absolute; /* Allow free movement */
+    top: 0;
+    left: 0;
+    width: auto; /* Allow auto width */
+    height: auto; /* Allow auto height */
+    max-width: none; /* Disable max-width */
+    max-height: none; /* Disable max-height */
     transform-origin: top left; /* Set origin for zooming */
     transition: transform 0.2s; /* Smooth transition for zoom */
 }
