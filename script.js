@@ -1,7 +1,7 @@
 const zoomableImage = document.getElementById("zoomableImage");
 const imageContainer = document.getElementById("imageContainer");
 
-let scale = 1;
+let scale = 2; // Set initial scale to 2 for zoomed-in effect
 let originX = 0;
 let originY = 0;
 let isDragging = false;
@@ -65,3 +65,6 @@ window.addEventListener('touchend', endDrag);
 imageContainer.addEventListener('touchmove', function(event) {
     event.preventDefault();
 }, { passive: false });
+
+// Initial transform to apply the initial zoom level
+updateTransform();
