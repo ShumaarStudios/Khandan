@@ -34,21 +34,27 @@ let scale = 1; // Initial zoom scale
 let originX = 0; // Initial x-offset
 let originY = 0; // Initial y-offset
 let isDragging = false;
-let startX;
-let startY;
+let startX = 0;
+let startY = 0;
+
+// Update the image transformation
+function updateTransform() {
+    zoomableImage.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+}
 
 // Zoom function
 function zoom(event) {
     event.preventDefault();
-    const rect = zoomableImage.getBoundingClientRect();
 
-    const offsetX = event.clientX - rect.left; // Mouse position relative to the image
-    const offsetY = event.clientY - rect.top;
+    // Get pointer coordinates relative to the image
+    const rect = zoomableImage.getBoundingClientRect();
+    const offsetX = event.clientX - rect.left || event.touches[0].clientX - rect.left;
+    const offsetY = event.clientY - rect.top || event.touches[0].clientY - rect.top;
 
     const deltaScale = event.deltaY < 0 ? 1.1 : 0.9; // Zoom in or out
     const newScale = Math.min(Math.max(scale * deltaScale, 0.5), 3); // Limit zoom levels
 
-    // Adjust origin to zoom at the mouse position
+    // Adjust origin to zoom at the pointer position
     originX = (originX - offsetX) * (newScale / scale) + offsetX;
     originY = (originY - offsetY) * (newScale / scale) + offsetY;
 
@@ -56,29 +62,29 @@ function zoom(event) {
     updateTransform();
 }
 
-// Update the image transformation
-function updateTransform() {
-    zoomableImage.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
-}
-
-// Handle mouse dragging
+// Handle dragging
 function startDrag(event) {
     event.preventDefault();
     isDragging = true;
-    startX = (event.clientX || event.touches[0].clientX) - originX;
-    startY = (event.clientY || event.touches[0].clientY) - originY;
+
+    const clientX = event.clientX || event.touches[0].clientX;
+    const clientY = event.clientY || event.touches[0].clientY;
+
+    startX = clientX - originX;
+    startY = clientY - originY;
     imageContainer.style.cursor = 'grabbing';
 }
 
 function drag(event) {
-    if (isDragging) {
-        event.preventDefault();
-        const clientX = event.clientX || event.touches[0].clientX;
-        const clientY = event.clientY || event.touches[0].clientY;
-        originX = clientX - startX;
-        originY = clientY - startY;
-        updateTransform();
-    }
+    if (!isDragging) return;
+
+    const clientX = event.clientX || event.touches[0].clientX;
+    const clientY = event.clientY || event.touches[0].clientY;
+
+    originX = clientX - startX;
+    originY = clientY - startY;
+
+    updateTransform();
 }
 
 function endDrag() {
@@ -86,17 +92,21 @@ function endDrag() {
     imageContainer.style.cursor = 'grab';
 }
 
-// Mouse and touch events
+// Mouse events
 imageContainer.addEventListener('wheel', zoom);
 imageContainer.addEventListener('mousedown', startDrag);
 window.addEventListener('mousemove', drag);
 window.addEventListener('mouseup', endDrag);
 
-imageContainer.addEventListener('touchstart', startDrag);
+// Touch events
+imageContainer.addEventListener('touchstart', startDrag, { passive: false });
 imageContainer.addEventListener('touchmove', drag, { passive: false });
 window.addEventListener('touchend', endDrag);
 
-// Initial transform to apply the initial zoom level
+// Prevent default touch actions to avoid scrolling
+imageContainer.addEventListener('touchmove', (event) => event.preventDefault(), { passive: false });
+
+// Initial transform
 updateTransform();
 </script>
 </body>
