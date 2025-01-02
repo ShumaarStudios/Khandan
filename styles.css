@@ -25,6 +25,7 @@ h1 {
 
 main {
     display: flex;
+    flex-direction: column; /* Allow stacking of elements */
     justify-content: center;
     align-items: center;
     height: 50vh; /* Set height to half of the viewport */
@@ -41,14 +42,32 @@ main {
 
 .image-container img {
     position: absolute; /* Allow free movement */
-    top: 0;
-    left: 0;
+    top: 50%;  /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Offset to center */
     width: auto; /* Allow auto width */
     height: auto; /* Allow auto height */
-    max-width: none; /* Disable max-width */
-    max-height: none; /* Disable max-height */
-    transform-origin: top left; /* Set origin for zooming */
+    max-width: none; /* Disable max-width to allow natural size */
+    max-height: none; /* Disable max-height to allow natural size */
     transition: transform 0.2s; /* Smooth transition for zoom */
+}
+
+.button-container {
+    margin-top: 10px; /* Space between image and button */
+}
+
+#downloadButton {
+    background-color: #3b5998; /* Dark blue color */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+#downloadButton:hover {
+    background-color: #2e4471; /* Darker shade on hover */
 }
 
 footer {
