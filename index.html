@@ -13,7 +13,7 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            background: linear-gradient(135deg, #a8e6cf, #dcedc1);
             overflow: hidden;
         }
 
@@ -48,6 +48,7 @@
             height: auto;
             max-width: none;
             transform-origin: center center;
+            transform: scale(0.5);
         }
 
         footer {
@@ -67,6 +68,19 @@
             border-radius: 5px;
             box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
         }
+
+        #download-btn {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 1em;
+            color: #fff;
+            text-decoration: none;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -81,11 +95,12 @@
 
 <footer>
     <a href="https://forms.gle/kVKUBqBQZW47qHTa9" target="_blank">Link for Adding Person or To Correct the Information</a>
+    <a id="download-btn" download="Untitled-1.jpg" href="Untitled-1.jpg">Download Image</a>
 </footer>
 
 <script>
     const image = document.getElementById('family-tree');
-    let scale = 1;
+    let scale = 0.5;
     let translateX = 0;
     let translateY = 0;
     let startX = 0;
