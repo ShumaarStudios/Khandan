@@ -8,6 +8,7 @@ let isDragging = false;
 let startX;
 let startY;
 
+// Zoom function
 function zoom(event) {
     event.preventDefault();
     if (event.deltaY < 0) {
@@ -15,9 +16,14 @@ function zoom(event) {
     } else {
         scale /= 1.1; // zoom out
     }
-    
+
     // Prevent scale from being too small or too large
     scale = Math.min(Math.max(scale, 1), 5); // Limit zoom scale between 1x and 5x
+    updateTransform();
+}
+
+// Update the image transformation
+function updateTransform() {
     zoomableImage.style.transform = `scale(${scale}) translate(${originX}px, ${originY}px)`;
 }
 
@@ -35,7 +41,7 @@ function drag(event) {
         const clientY = event.clientY || event.touches[0].clientY;
         originX = clientX - startX;
         originY = clientY - startY;
-        zoomableImage.style.transform = `scale(${scale}) translate(${originX}px, ${originY}px)`;
+        updateTransform();
     }
 }
 
