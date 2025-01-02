@@ -1,7 +1,7 @@
 const zoomableImage = document.getElementById("zoomableImage");
 const imageContainer = document.getElementById("imageContainer");
 
-let scale = 1; // Set initial scale to 2 for zoomed-in effect
+let scale = 1; // Set initial scale to 1 for normal size
 let originX = 0;
 let originY = 0;
 let isDragging = false;
@@ -24,7 +24,7 @@ function zoom(event) {
 
 // Update the image transformation
 function updateTransform() {
-    zoomableImage.style.transform = `scale(${scale}) translate(${originX}px, ${originY}px)`;
+    zoomableImage.style.transform = `translate(-50%, -50%) scale(${scale}) translate(${originX}px, ${originY}px)`;
 }
 
 // Handle mouse dragging
