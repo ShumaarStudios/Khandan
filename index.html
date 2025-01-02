@@ -3,50 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kherudkar Khandan</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Family Tree</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            overflow: hidden;
+        }
+
+        header {
+            position: absolute;
+            top: 10px;
+            text-align: center;
+            width: 100%;
+            z-index: 2;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+            color: #fff;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .image-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 80%;
+            touch-action: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-container img {
+            width: auto;
+            height: auto;
+            max-width: none;
+            transform-origin: center center;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 10px;
+            text-align: center;
+            width: 100%;
+            z-index: 2;
+        }
+
+        footer a {
+            font-size: 1em;
+            color: #fff;
+            text-decoration: none;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <center><h1>Kherudkar Khandan</h1></center>
-    </header>
 
-    <main>
-        <div class="image-container" id="imageContainer">
-            <img id="zoomableImage" src="Untitled-1.jpg" alt="Zoomable Image">
-        </div>
-        <div class="button-container">
-            <a id="downloadButton" href="Untitled-1.jpg" download>Download Image</a>
-        </div>
-    </main>
+<header>
+    <h1>Our Family Tree</h1>
+</header>
 
-    <footer>
-        <p>&copy; 2025 Shumaar Studios. All rights reserved.</p>
-    </footer>
+<div class="image-container">
+    <img id="family-tree" src="Untitled-1.jpg" alt="Family Tree">
+</div>
 
-   <style>
-a:link, a:visited {
-  background-color: #f44336;
-  color: white;
-  padding: 15px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-}
+<footer>
+    <a href="https://forms.gle/kVKUBqBQZW47qHTa9" target="_blank">Link for Adding Person or To Correct the Information</a>
+</footer>
 
-a:hover, a:active {
-  background-color: red;
-}
+<script>
+    const image = document.getElementById('family-tree');
+    let scale = 1;
+    let translateX = 0;
+    let translateY = 0;
+    let startX = 0;
+    let startY = 0;
+    let isDragging = false;
 
- </style>
+    const container = document.querySelector('.image-container');
 
-<center><a href="https://forms.gle/wrnUqQ5obRcJExL1A" target="_blank">Link for Adding Person or To Correct the Information</a></center>
+    container.addEventListener('wheel', (event) => {
+        event.preventDefault();
+        const zoomIntensity = 0.1;
+        const delta = Math.sign(event.deltaY);
+        scale = Math.min(Math.max(scale - delta * zoomIntensity, 0.5), 5);
+        image.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    });
 
-</body>
-</html>
+    container.addEventListener('mousedown', (event) => {
+        isDragging = true;
+        startX = event.clientX - translateX;
+        startY = event.clientY - translateY;
+    });
 
-    <h4>By Shubham Kherudkar and Aarush Kherudkar</h4>
+    container.addEventListener('mousemove', (event) => {
+        if (!isDragging) return;
+        translateX = event.clientX - startX;
+        translateY = event.clientY - startY;
+        image.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    });
 
-    <script src="script.js"></script>
+    container.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+
+    container.addEventListener('mouseleave', () => {
+        isDragging = false;
+    });
+
+    container.addEventListener('touchstart', (event) => {
+        if (event.touches.length === 1) {
+            isDragging = true;
+            startX = event.touches[0].clientX - translateX;
+            startY = event.touches[0].clientY - translateY;
+        }
+    });
+
+    container.addEventListener('touchmove', (event) => {
+        if (!isDragging || event.touches.length !== 1) return;
+        translateX = event.touches[0].clientX - startX;
+        translateY = event.touches[0].clientY - startY;
+        image.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    });
+
+    container.addEventListener('touchend', () => {
+        isDragging = false;
+    });
+</script>
+
 </body>
 </html>
