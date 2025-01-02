@@ -1,7 +1,7 @@
 const zoomableImage = document.getElementById("zoomableImage");
 const imageContainer = document.getElementById("imageContainer");
 
-let scale = 2; // Set initial scale to 2 for zoomed-in effect
+let scale = 1; // Set initial scale to 1 for zoomed-in effect
 let originX = 0;
 let originY = 0;
 let isDragging = false;
