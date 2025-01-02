@@ -1,7 +1,7 @@
 const zoomableImage = document.getElementById("zoomableImage");
 const imageContainer = document.getElementById("imageContainer");
 
-let scale = 1; // Set initial scale to 1 for zoomed-in effect
+let scale = 1;
 let originX = 0;
 let originY = 0;
 let isDragging = false;
@@ -18,7 +18,7 @@ function zoom(event) {
     }
 
     // Prevent scale from being too small or too large
-    scale = Math.min(Math.max(scale, 1), 6); // Limit zoom scale between 1x and 5x
+    scale = Math.min(Math.max(scale, 1), 5); // Limit zoom scale between 1x and 5x
     updateTransform();
 }
 
@@ -65,6 +65,3 @@ window.addEventListener('touchend', endDrag);
 imageContainer.addEventListener('touchmove', function(event) {
     event.preventDefault();
 }, { passive: false });
-
-// Initial transform to apply the initial zoom level
-updateTransform();
